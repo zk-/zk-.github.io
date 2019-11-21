@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.jackfred.cn/2019/11/21/PWA/</loc>
+    
+    <lastmod>2019-11-21T06:41:33.497Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.jackfred.cn/2016/10/18/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</loc>
     
     <lastmod>2019-11-21T01:35:50.643Z</lastmod>
@@ -93,13 +100,6 @@
   </url>
   
   <url>
-    <loc>http://www.jackfred.cn/2017/03/24/react-share/</loc>
-    
-    <lastmod>2019-11-21T01:35:50.636Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.jackfred.cn/2016/10/22/postman%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/</loc>
     
     <lastmod>2019-11-21T01:35:50.636Z</lastmod>
@@ -107,7 +107,21 @@
   </url>
   
   <url>
+    <loc>http://www.jackfred.cn/2017/03/24/react-share/</loc>
+    
+    <lastmod>2019-11-21T01:35:50.636Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.jackfred.cn/2017/02/21/images-2-canvas/</loc>
+    
+    <lastmod>2019-11-21T01:35:50.635Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.jackfred.cn/2016/12/23/impress%E7%AE%80%E6%98%93%E6%95%99%E7%A8%8B/</loc>
     
     <lastmod>2019-11-21T01:35:50.635Z</lastmod>
     
@@ -122,13 +136,6 @@
   
   <url>
     <loc>http://www.jackfred.cn/2018/09/04/iphone-wechat-charset-bug/</loc>
-    
-    <lastmod>2019-11-21T01:35:50.635Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.jackfred.cn/2016/12/23/impress%E7%AE%80%E6%98%93%E6%95%99%E7%A8%8B/</loc>
     
     <lastmod>2019-11-21T01:35:50.635Z</lastmod>
     
