@@ -1,0 +1,825 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Jackfred">
+<meta name="apple-mobile-web-app-title" content="Jackfred">
+<meta name="msapplication-starturl" content="/index.html">
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="微信小程序," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="jackfred的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="一个月前微信小程序火爆朋友圈，当时我对这个并不是很感兴趣，现在公司需要开发这个，花了一天的时间，把微信的文档看了个大概，看到了很多技术和工具的影子，其实微信小程序不是什么新鲜的东西，都是我们平常学习过的东西。">
+<meta name="keywords" content="微信小程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解微信小程序">
+<meta property="og:url" content="http://www.jackfred.cn/2016/11/22/深入理解微信小程序/index.html">
+<meta property="og:site_name" content="jackfred的博客">
+<meta property="og:description" content="一个月前微信小程序火爆朋友圈，当时我对这个并不是很感兴趣，现在公司需要开发这个，花了一天的时间，把微信的文档看了个大概，看到了很多技术和工具的影子，其实微信小程序不是什么新鲜的东西，都是我们平常学习过的东西。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.jackfred.cn/images/weixinxiaochenxu/weixinxiaochenxu1.png">
+<meta property="og:image" content="http://www.jackfred.cn/images/weixinxiaochenxu/weixinxiaochenxu2.gif">
+<meta property="og:image" content="http://www.jackfred.cn/images/weixinxiaochenxu/weixinxiaochenxu3.gif">
+<meta property="og:image" content="http://www.jackfred.cn/images/weixinxiaochenxu/weixinxiaochenxu4.png">
+<meta property="og:image" content="https://mp.weixin.qq.com/debug/wxadoc/dev/image/mina-lifecycle.png?t=20161122">
+<meta property="og:updated_time" content="2019-11-21T01:35:50.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解微信小程序">
+<meta name="twitter:description" content="一个月前微信小程序火爆朋友圈，当时我对这个并不是很感兴趣，现在公司需要开发这个，花了一天的时间，把微信的文档看了个大概，看到了很多技术和工具的影子，其实微信小程序不是什么新鲜的东西，都是我们平常学习过的东西。">
+<meta name="twitter:image" content="http://www.jackfred.cn/images/weixinxiaochenxu/weixinxiaochenxu1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js', {scope: '/'})
+            .then(function (registration) {
+
+                // 注册成功
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function (err) {
+
+                // 注册失败:(
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+</script>
+
+  <title> 深入理解微信小程序 | jackfred的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?4cb295888c3e51a23fd2946c9a6ed312";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jackfred的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人啊,就是需要一点亮剑精神</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                深入理解微信小程序
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-22T23:00:30+08:00" content="2016-11-22">
+              2016-11-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/博客/" itemprop="url" rel="index">
+                    <span itemprop="name">博客</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一个月前微信小程序火爆朋友圈，当时我对这个并不是很感兴趣，现在公司需要开发这个，花了一天的时间，把微信的文档看了个大概，看到了很多技术和工具的影子，其实微信小程序不是什么新鲜的东西，都是我们平常学习过的东西。<br><a id="more"></a></p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>微信小程序可以通过微信获取到两个方面信息和权限，一个是手机使用者的手机信息和权限，一个是获取其微信用户的信息。而第一个是安装微信时获取到的权限，小程序就是通过调用微信的接口获取手机信息和权限，而第二个则是微信自带的功能。所以小程序对于微信来说，就像插件对于chrome浏览器一样，从配置上，这二者也有异曲同工之处。<br>小程序与插件相比，其创新程度在于两点：小程序的页面核心是一个响应的数据绑定系统，视图层WXML文件是一种类似xml语法的文件，主要承载页面的渲染显示，逻辑层js文件为视图层主要提供数据和行为。小程序的第二个创新之处在于为小程序以及其页面提供了生命周期函数，当用户加载小程序，退出小程序，加载页面销毁页面时都会有对应的生命周期函数可以贡开发者使用。<br>下面就开始说一说小程序的基本内容</p>
+<h1 id="文档地址"><a href="#文档地址" class="headerlink" title="文档地址"></a>文档地址</h1><p>微信小程序的文档写得非常的完美，主要从结构、页面组件、权限接口三个方面诠释了小程序的主要内容，其文档地址大家可以点击<strong><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/MINA.html?t=20161122" target="_blank" rel="noopener">这里</a></strong>访问。</p>
+<h1 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h1><p>首先看一眼一个基础小程序的目录结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">E:\TEST</span><br><span class="line">│  app.js  //入口函数，程序生命周期函数声明的地方</span><br><span class="line">│  app.json  //全局配置，程序声明获取权限的地方</span><br><span class="line">│  app.wxss  //全局样式，程序定义公共样式的地方</span><br><span class="line">│</span><br><span class="line">├─pages</span><br><span class="line">│  ├─index</span><br><span class="line">│  │      index.js</span><br><span class="line">│  │      index.wxml</span><br><span class="line">│  │      index.wxss</span><br><span class="line">│  │</span><br><span class="line">│  └─logs</span><br><span class="line">│          logs.js  //逻辑层代码，包含小程序数据和行为</span><br><span class="line">│          logs.json  //小程序声明获取权限的地方，只能获取部分权限(window)，向上覆盖全局配置</span><br><span class="line">│          logs.wxml  //视图层，小程序页面承载内容的地方</span><br><span class="line">│          logs.wxss  //小程序页面样式，向上覆盖</span><br><span class="line">│</span><br><span class="line">└─utils</span><br><span class="line">        util.js  //自定义公共函数，文件夹和文件的名字随意</span><br></pre></td></tr></table></figure></p>
+<p>一个小程序的整个目录结构差不多就是这样，根目录下的app.js为小程序的入口函数，页面的声明通过app.json来实现，小程序要获取用户的各种信息和权限需要通过这里声明，同时小页面包含的所有页面也需要在这里声明。<br>小程序目录结构的第二个重点是页面下的文件，一般页面下需要包含.js .json .wxml .wxss这四类文件，文件名与文件夹名同名，相关功能已经在注释中说明，不在赘述。<br><strong>可以看到小程序的文件结构非常的简单，我们学习它也很容易</strong></p>
+<h1 id="权限获取"><a href="#权限获取" class="headerlink" title="权限获取"></a>权限获取</h1><p>权限获取分两个方面，一个是根目录下app.json的权限获取<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">属性			类型			必填	描述</span><br><span class="line">pages			String Array		是	设置页面路径</span><br><span class="line">window			Object			否	设置默认页面的窗口表现</span><br><span class="line">tabBar			Object			否	设置底部 tab 的表现</span><br><span class="line">networkTimeout		Object			否	设置网络超时时间</span><br><span class="line">debug			Boolean			否	设置是否开启 debug 模式</span><br></pre></td></tr></table></figure></p>
+<p>其中window是定义小程序页面的默认设置，如果页面中没有json配置文件或者json配置文件声明的没有覆盖声明对应的权限，则使用默认app.json下的配置，页面下的json文件只能覆盖window属性的权限。</p>
+<h1 id="视图层组件"><a href="#视图层组件" class="headerlink" title="视图层组件"></a>视图层组件</h1><p>小程序的页面wxml文件使用的是一个类似xml语法的文件，每一个标签都有其对应的闭合标签(templete标签和import标签和include标签除外)，全部都是小写。<br>例如&lt;image&gt;必须有对应的&lt;/image&gt;，而且大小写敏感，写成&lt;/Image&gt;是不可以的。<br>页面标签我总结了一下从功能上可以分为三类<br>第一类是普通的视图容器view和block，这两类都是识图容器一类，在页面中主要作用是分割页面内容，并且和其他标签一样，可以承载数据和渲染逻辑。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// pages/test/test.wxml</span><br><span class="line">&lt;view&gt;&#123;&#123;testData&#125;&#125;&lt;/view&gt;  //直接使用在js的data下声明的数据</span><br><span class="line"></span><br><span class="line">// pages/test/test.js</span><br><span class="line">Page(&#123;</span><br><span class="line">  data:&#123;</span><br><span class="line">    testData:&apos;hello world!&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  ···省略</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>效果图<br><img src="/images/weixinxiaochenxu/weixinxiaochenxu1.png" alt="微信小程序"><br>承载行为注意通过bindtap或者catchtap来实现，这两种区别稍后在说明，现在用bindtap举例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// pages/test/test.wxml</span><br><span class="line">&lt;view bindtap=&quot;testtap&quot;&gt;&#123;&#123;testData&#125;&#125;&lt;/view&gt;  //绑定testtap函数</span><br><span class="line"></span><br><span class="line">// pages/test/test.js</span><br><span class="line">Page(&#123;</span><br><span class="line">  data:&#123;</span><br><span class="line">    testData:&apos;hello world!&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  testtap:function(event)&#123;  //点击时执行的函数</span><br><span class="line">    wx.showToast(&#123;</span><br><span class="line">      title: &apos;hello world&apos;,</span><br><span class="line">      icon: &apos;success&apos;,</span><br><span class="line">      duration: 2000</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  ···</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>效果图<br><img src="/images/weixinxiaochenxu/weixinxiaochenxu2.gif" alt="微信小程序"></p>
+<p>第二类则是小程序内置的标签，这些标签功能多而且强大，下面就拿标签picker举例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// pages/test/test.wxml</span><br><span class="line">&lt;picker bindchange=&quot;bindPickerChange&quot; value=&quot;1&quot; range=&quot;&#123;&#123;pickerData&#125;&#125;&quot;&gt;</span><br><span class="line">    &lt;view class=&quot;picker&quot;&gt;</span><br><span class="line">        选择</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">&lt;/picker&gt;</span><br><span class="line"></span><br><span class="line">// pages/test/test.js</span><br><span class="line">Page(&#123;</span><br><span class="line">  data:&#123;</span><br><span class="line">    testData:&apos;hello world!&apos;,</span><br><span class="line">    pickerData:[1,2,3]</span><br><span class="line">  &#125;,</span><br><span class="line">  bindPickerChange: function(event)&#123;</span><br><span class="line">    console.log(&apos;test&apos;)</span><br><span class="line">  &#125;···</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>效果图<br><img src="/images/weixinxiaochenxu/weixinxiaochenxu3.gif" alt="微信小程序"></p>
+<p>第三类则是模版标签，即templete标签，为了便于管理，我们需要在根目录下新建一个templete文件夹，在文件夹内新建我们的模版文件，文件名自定义。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// templete/test.wxml</span><br><span class="line">&lt;template name=&quot;test&quot;&gt;</span><br><span class="line">  &lt;text&gt;&#123;&#123;number&#125;&#125;&lt;/text&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure></p>
+<p>我们需要为标签添加一个name属性(在所有的模版文件中，name属性最好不一样)，里面写好我们所需要的内容，在需要使用模版的文件中使用import来引入，文件中通过is属性来使用，data属性来填入数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// pages/test/test.wxml</span><br><span class="line">&lt;import src=&quot;../templete/test.wxml&quot;/&gt;</span><br><span class="line">&lt;template is=&quot;test&quot; data=&quot;&#123;&#123;number: &apos;1&apos;&#125;&#125;&quot;/&gt;</span><br><span class="line">&lt;template is=&quot;test&quot; data=&quot;&#123;&#123;number: &apos;2&apos;&#125;&#125;&quot;/&gt;</span><br><span class="line">&lt;template is=&quot;test&quot; data=&quot;&#123;&#123;number: &apos;3&apos;&#125;&#125;&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>效果图<br><img src="/images/weixinxiaochenxu/weixinxiaochenxu4.png" alt="微信小程序"><br><strong>是不是感觉似曾相识？没错，开发过vue的同学有福了，其实小程序页面的开发逻辑和vue有很多相似的地方</strong></p>
+<h1 id="逻辑层"><a href="#逻辑层" class="headerlink" title="逻辑层"></a>逻辑层</h1><p>逻辑层开发需要先注册，注册有程序注册，即在app.js里面用App()方法，还有页面注册，即在页面文件js中用Page()方法。<br>每个页面都有独立的作用域，小程序提供getApp 和 getCurrentPages 方法，分别用来获取 App 实例和当前页面栈，getCurrentPages只能在页面中使用，getApp哪里都能用，主要用来设置和读取全局变量</p>
+<h2 id="注册程序"><a href="#注册程序" class="headerlink" title="注册程序"></a>注册程序</h2><p>程序通过app.js来注册，提供三个周期函数，onLunch当初始化完成启动小程序的时候，onShow当小程序从后台进入页面的时候，onHide从前台进入后台的时候。开发者可以在App()中定义其他的属性和方法，作为全局作用域。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">App(&#123;</span><br><span class="line">  onLaunch: function() &#123;</span><br><span class="line">    // Do something initial when launch.</span><br><span class="line">  &#125;,</span><br><span class="line">  onShow: function() &#123;</span><br><span class="line">      // Do something when show.</span><br><span class="line">  &#125;,</span><br><span class="line">  onHide: function() &#123;</span><br><span class="line">      // Do something when hide.</span><br><span class="line">  &#125;,</span><br><span class="line">  globalData: &apos;I am global data&apos;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="注册页面"><a href="#注册页面" class="headerlink" title="注册页面"></a>注册页面</h2><p>页面通过在app.json下指定的文件名的js文件来注册，提供一个默认属性和七个周期函数，默认属性data，为页面提供初始化数据，wxml渲染页面时提供数据。<br>onLoad为生命周期函数，页面加载是触发<br>onReady为生命周期函数，页面初次渲染完成时触发<br>onShow为生命周期函数，监听页面显示时触发<br>onHide为生命周期函数，监听页面隐藏时触发<br>onUnload为生命周期函数，监听页面卸载(关闭这个页面或者重定向页面时候触发)<br>onPullDownRefresh为页面相关事件处理函数，用户下拉动作时触发<br>onReachBottom为页面相关事件处理函数，页面上拉触底时触发<br>补一张官方给出的页面生命周期图<br><img src="https://mp.weixin.qq.com/debug/wxadoc/dev/image/mina-lifecycle.png?t=20161122" alt="微信小程序"></p>
+<h1 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h1><p>样式在前面有提及过，这里要特别指出的是，小程序的样式文件wxss具有大部分css的特性，在尺寸单位上小程序扩展了两个单位<br>一个是rpx，可以根据屏幕宽度进行自适应。规定屏幕宽为750rpx。如在 iPhone6 上，屏幕宽度为375px，共有750个物理像素，则750rpx = 375px = 750物理像素，1rpx = 0.5px = 1物理像素<br>一个是rem，规定屏幕宽度为20rem；1rem = (750/20)rpx 。<br>在样式导入上，支持css的内联样式，样式文件与识图文件名相同默认导入进去，在样式文件中可以使用<strong>@import “common.wxss”</strong>导入其他文件，app.wcss默认给所有页面导入进去。</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>在小程序中，因为是在JsCore中运行，所以不存在window或者globle这样的对象，所以很多js库不能直接引入进去，只要里面使用了window这样的对象。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>小程序的开发思路和chrome插件的开发思路有很多相似之处，页面的构建和vue很相似，目前来说小程序没有引入更多复杂的概念，文章剩下没有讲过的东西大多数都是一些api函数，需要时查一下调用一下即可，总体感觉文章说的有一点混乱，读者有意见可以在下面提出，我会及时修正，以后我也会优化这篇文章，在不久我还会出第二篇小程序的实践文章，点击文章下面的微信小程序标签就可以看到所有有关微信小程序的文章，或者订阅rss也可以。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微信小程序/" rel="tag">#微信小程序</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/26/js继承的方式和意义/" rel="next" title="js继承的方式和意义">
+                <i class="fa fa-chevron-left"></i> js继承的方式和意义
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/30/ES6新特性初探/" rel="prev" title="ES6新特性初探">
+                ES6新特性初探 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="周康" />
+          <p class="site-author-name" itemprop="name">周康</p>
+          <p class="site-description motion-element" itemprop="description">运动与认知是人生最重要的两件事</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zk-" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/jackfredzk" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/zhou-kang-46-86" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-quote-left"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文档地址"><span class="nav-number">2.</span> <span class="nav-text">文档地址</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目录结构"><span class="nav-number">3.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#权限获取"><span class="nav-number">4.</span> <span class="nav-text">权限获取</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#视图层组件"><span class="nav-number">5.</span> <span class="nav-text">视图层组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#逻辑层"><span class="nav-number">6.</span> <span class="nav-text">逻辑层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注册程序"><span class="nav-number">6.1.</span> <span class="nav-text">注册程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册页面"><span class="nav-number">6.2.</span> <span class="nav-text">注册页面</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#样式"><span class="nav-number">7.</span> <span class="nav-text">样式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">8.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">周康</span>
+</div>
+
+<div class="powered-by">
+  Hosted by <a class="theme-link" href="https://coding.net/pages">Coding Pages</a>
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+这是我的博客,点击[这里](http://www.jackfred.cn/)访问
