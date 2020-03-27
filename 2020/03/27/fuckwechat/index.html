@@ -73,12 +73,10 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="技术, 博客" />
+  <meta name="keywords" content="微信小程序," />
 
 
 
-
-  
 
 
   <link rel="alternate" href="/atom.xml" title="jackfred的博客" type="application/atom+xml" />
@@ -93,17 +91,18 @@
 
 
 
-<meta name="description" content="运动与认知是人生最重要的两件事">
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://www.jackfred.cn/categories/index.html">
+<meta name="description" content="最近做了很多小程序相关的开发，可以说全是血泪史，顺便总结一下里面遇到的坑">
+<meta name="keywords" content="微信小程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序踩坑总结">
+<meta property="og:url" content="http://www.jackfred.cn/2020/03/27/fuckwechat/index.html">
 <meta property="og:site_name" content="jackfred的博客">
-<meta property="og:description" content="运动与认知是人生最重要的两件事">
+<meta property="og:description" content="最近做了很多小程序相关的开发，可以说全是血泪史，顺便总结一下里面遇到的坑">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-21T01:35:50.643Z">
+<meta property="og:updated_time" content="2020-03-27T08:40:56.460Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
-<meta name="twitter:description" content="运动与认知是人生最重要的两件事">
+<meta name="twitter:title" content="微信小程序踩坑总结">
+<meta name="twitter:description" content="最近做了很多小程序相关的开发，可以说全是血泪史，顺便总结一下里面遇到的坑">
 
 
 
@@ -121,13 +120,7 @@
   };
 </script>
 <script src="/loadServiceWork.js"></script>
-  <title>
-  
-
-  
-    分类 | jackfred的博客
-  
-</title>
+  <title> 微信小程序踩坑总结 | jackfred的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -158,7 +151,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -261,16 +254,152 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
     
-      <div class="category-all-page">
-        <div class="category-all-title">
-            目前共计 2 个分类
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                微信小程序踩坑总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-03-27T15:35:29+08:00" content="2020-03-27">
+              2020-03-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/博客/" itemprop="url" rel="index">
+                    <span itemprop="name">博客</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
         </div>
-        <div class="category-all">
-          <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/博客/">博客</a><span class="category-list-count">22</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">3</span></li></ul>
-        </div>
-      </div>
+      </header>
     
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近做了很多小程序相关的开发，可以说全是血泪史，顺便总结一下里面遇到的坑<br><a id="more"></a><br>此页面写于小程序基础库2.10.1版本</p>
+<h1 id="1-app-globalData"><a href="#1-app-globalData" class="headerlink" title="1.app.globalData"></a>1.app.globalData</h1><p>在页面启动时，有概率取不到其中的数据，虽然在文档中这个是全局变量，处于整个生命周期中，使用时需要注意</p>
+<h1 id="2-页面栈"><a href="#2-页面栈" class="headerlink" title="2.页面栈"></a>2.页面栈</h1><p>小程序页面栈不能超过10个，不能手动删除页面栈，这就导致页面路由复杂的小程序会出现正常路由导航失败<br>解决办法就是使用wx.reLaunch重启小程序清空或者使用wx.navigateBack回退页面<br>除此之外就没有别的方法了</p>
+<h1 id="3-小程序生命周期与页面的生命周期"><a href="#3-小程序生命周期与页面的生命周期" class="headerlink" title="3.小程序生命周期与页面的生命周期"></a>3.小程序生命周期与页面的生命周期</h1><p>这是小程序最大的坑，所有的大坑都和这个有关（此处省略问候张小龙的N多脏话）<br>在文档中你可能以为小程序从启动到看到首页是有规律的生命周期那你就大错特错了。<br>首先小程序级别的onLaunch事件，不一定会第一时间触发，可能当页面已经展示了还没有触发。。（巨坑，许多依赖这个事件的逻辑都有大坑）<br>第二是小程序的onReady事件不一定会准确触发，虽然写作ready，实际页面可能还没准备好就触发了，这就造成了有些需要系统api的操作失败。。<br>第三是根据第二个引出来的，很多小程序的api是不能直接使用的，如果贸然放在小程序或者页面的启动生命周期函数中，就会直接失败，而且不会报任何错误。。（我TM）<br>第四是小程序级别的onLaunch事件再不同手机下要触发的条件不一样，有时候你以为关掉了小程序的进程，实际上并没有，这个事件也不会触发，会引来不必要的烦恼</p>
+<h1 id="4-canvas相关api"><a href="#4-canvas相关api" class="headerlink" title="4.canvas相关api"></a>4.canvas相关api</h1><p>罄竹难书，问题太多，实在不想一一列举，全都是坑，能不碰就不碰</p>
+<h1 id="5-css动画"><a href="#5-css动画" class="headerlink" title="5.css动画"></a>5.css动画</h1><p>各种兼容问题，以及transition不能使用，animation失效等等，解决办法就是能不用就不用</p>
+<h1 id="6-授权相关"><a href="#6-授权相关" class="headerlink" title="6.授权相关"></a>6.授权相关</h1><p>视频授权，昵称手机号授权要做好失败处理，同时要表现的不能太流氓，并且在过审时能低调就低调，否则会被打回（这一点我是真无语，给了权限让我们使用，又会以收集用户隐私为由打回，微信脑子有水？）</p>
+<h1 id="7-首页登录"><a href="#7-首页登录" class="headerlink" title="7.首页登录"></a>7.首页登录</h1><p>因为产品设计时的原因，可能在小程序启动时就让用户进入登录页面，抱歉这是不被微信允许的，在审核过程中会被打回</p>
+<h1 id="最后总结"><a href="#最后总结" class="headerlink" title="最后总结"></a>最后总结</h1><p>小程序的坑一直都非常的多，即使它已经出来很多年了</p>
+<ul>
+<li>不完善的文档，很多只给了一点用法，需要注意的事项不会写，用了才遇到的很多坑</li>
+<li>令人无语的报错，有时候小程序会报莫名其妙的错，有时候有些api明明有错却什么都不报，让人摸不到头脑，不清楚哪里有错</li>
+<li>让人无法相信的api，永远不要完全相信文档里面的描述，多看看下面的bug反馈</li>
+<li>不同平台不同的bug，你真的需要2到3部安卓机和一个苹果机，它们的表现可能都会不一样</li>
+</ul>
+<p>这一次只总结一些临时想到的问题，以后还会更新这篇文章。<br>真心希望张小龙能收起它的傲慢，好好打磨他的产品，大部分人用微信是因为它的垄断，被裹挟着使用，并不代表微信是一个好产品，微信的各种使用问题体验问题，它的落后已经不是少部分人抱怨了，可能这对于微信来说只是一个稻草，但也可能是压死微信这个骆驼的最后一根稻草。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微信小程序/" rel="tag">#微信小程序</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/21/PWA/" rel="next" title="PWA初尝试">
+                <i class="fa fa-chevron-left"></i> PWA初尝试
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -279,6 +408,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -298,8 +431,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -385,6 +527,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-app-globalData"><span class="nav-number">1.</span> <span class="nav-text">1.app.globalData</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-页面栈"><span class="nav-number">2.</span> <span class="nav-text">2.页面栈</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-小程序生命周期与页面的生命周期"><span class="nav-number">3.</span> <span class="nav-text">3.小程序生命周期与页面的生命周期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-canvas相关api"><span class="nav-number">4.</span> <span class="nav-text">4.canvas相关api</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-css动画"><span class="nav-number">5.</span> <span class="nav-text">5.css动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-授权相关"><span class="nav-number">6.</span> <span class="nav-text">6.授权相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-首页登录"><span class="nav-number">7.</span> <span class="nav-text">7.首页登录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后总结"><span class="nav-number">8.</span> <span class="nav-text">最后总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -481,6 +634,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 

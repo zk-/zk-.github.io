@@ -1,4 +1,4 @@
-var version = '1.0.3'; //手动更新版本
+var version = '1.0.88'; //手动更新版本
 // 安装阶段跳过等待，直接进入 active
 this.addEventListener('install', function (event) {
     event.waitUntil(this.skipWaiting());
